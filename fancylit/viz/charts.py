@@ -1,6 +1,16 @@
 import pandas as pd
 import altair as alt
 import streamlit as st
+import seaborn as sns
+
+def pair_plot(df: pd.DataFrame,):
+     x_col = st.selectbox("Select x axis for bar chart", df.columns)
+    xcol_string = x_col + ":O"
+    if st.checkbox("Show as continuous?", key="bar_chart_x_is_cont"):
+        xcol_string = x_col + ":Q"
+    y_col = st.selectbox("Select y axis for bar chart", df.columns)
+    z_col = st.selectbox("Select z axis for bar chart", df.columns)
+    return sns.pairplot(df,y_col,z_col)
 
 
 def bar_chart(
