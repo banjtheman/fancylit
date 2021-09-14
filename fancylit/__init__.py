@@ -1,4 +1,4 @@
 from .viz import charts
+from .modeling import *
 # TODO
-# from .modeling import *
 # from .stats import *

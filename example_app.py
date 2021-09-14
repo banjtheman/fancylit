@@ -7,6 +7,21 @@ import pandas as pd
 ###
 
 
+def modeling_viz_examples(df: pd.DataFrame) -> None:
+    """
+    Purpose:
+        Shows examples for modeling
+    Args:
+        N/A
+    Returns:
+        N/A
+    """
+
+    # classification_report example
+    st.write("Classification Report Example")
+    fancylit.yellowbrick_funcs.show_classification_report(df)
+
+
 def viz_examples(df: pd.DataFrame) -> None:
     """
     Purpose:
@@ -57,6 +72,9 @@ def app() -> None:
     # Start examples
     st.header("Viz Examples")
     viz_examples(df)
+
+    st.header("Modeling Examples")
+    modeling_viz_examples(df)
 
 
 def main() -> None:
