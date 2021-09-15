@@ -7,6 +7,22 @@ import pandas as pd
 ###
 
 
+def stats_examples(df: pd.DataFrame) -> None:
+    """
+    Purpose:
+        Shows examples for modeling
+    Args:
+        N/A
+    Returns:
+        N/A
+    """
+
+    # Stats Example
+    st.write("Stats Example")
+    with st.echo():
+        fancylit.stats.df_describe(df)
+
+
 def modeling_viz_examples(df: pd.DataFrame) -> None:
     """
     Purpose:
@@ -19,7 +35,8 @@ def modeling_viz_examples(df: pd.DataFrame) -> None:
 
     # classification_report example
     st.write("Classification Report Example")
-    fancylit.yellowbrick_funcs.show_classification_report(df)
+    with st.echo():
+        fancylit.yellowbrick_funcs.show_classification_report(df)
 
 
 def viz_examples(df: pd.DataFrame) -> None:
@@ -34,7 +51,8 @@ def viz_examples(df: pd.DataFrame) -> None:
 
     # Start bar chart example
     st.write("Bar Chart Example")
-    fancylit.viz.charts.bar_chart(df)
+    with st.echo():
+        fancylit.viz.charts.bar_chart(df)
 
 
 def sidebar() -> None:
@@ -70,6 +88,10 @@ def app() -> None:
     st.write(df)
 
     # Start examples
+
+    st.header("Stats Examples")
+    stats_examples(df)
+
     st.header("Viz Examples")
     viz_examples(df)
 
