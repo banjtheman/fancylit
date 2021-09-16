@@ -11,6 +11,9 @@ ports:
 
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
+  - init: echo "Ready to go"
+    command: echo "Lets go!!!!"
+
   - init: pip install -r requirements.txt
     command: streamlit run example_app.py
     openMode: split-right
