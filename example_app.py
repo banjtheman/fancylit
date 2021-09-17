@@ -18,7 +18,7 @@ def stats_examples(df: pd.DataFrame) -> None:
     """
 
     # Stats Example
-    st.write("Stats Example")
+    st.write("Describe Example")
     with st.echo():
         fancylit.stats.df_describe(df)
 
@@ -79,23 +79,26 @@ def app() -> None:
     """
 
     # Spin up the sidebar
-    sidebar()
+    # sidebar()
 
     # load example csv
     df = pd.read_csv("datasets/iris.csv")
+
+    st.header("Fancylit Examples")
+    st.write("The following examples highlight what fancylit can do using the following dataset")
 
     st.write("Iris CSV data")
     st.write(df)
 
     # Start examples
 
-    st.header("Stats Examples")
+    st.subheader("Stats Examples")
     stats_examples(df)
 
-    st.header("Viz Examples")
+    st.subheader("Viz Examples")
     viz_examples(df)
 
-    st.header("Modeling Examples")
+    st.subheader("Modeling Examples")
     modeling_viz_examples(df)
 
 
