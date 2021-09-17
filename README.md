@@ -34,3 +34,10 @@ See more examples here: https://share.streamlit.io/banjtheman/fancylit/main/exam
 There are plenty of modules to create, or update all detailed in the [issues page](https://github.com/banjtheman/fancylit/issues). Complete 4 PRs during October to win a free t-shirt.
 
 To learn more, check out their [FAQ](https://hacktoberfest.digitalocean.com/resources/participation)
+
+
+If you want to build right away you can use [Gitpod](https://gitpod.io/) which provides a developer environment ready to begin coding. Simply click the button below to begin building.  
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/banjtheman/fancylit/)
+
+
