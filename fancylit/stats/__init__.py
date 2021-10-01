@@ -1,1 +1,1 @@
-from .data_stats import df_describe
+from .data_stats import df_describe, show_metrics
