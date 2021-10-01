@@ -29,7 +29,7 @@ See more examples here: https://share.streamlit.io/banjtheman/fancylit/main/exam
 
 ## Hacktoberfest 2021
 
-![Hacktoberfest](https://hacktoberfest.digitalocean.com/img/logo-hacktoberfest-full.7d5e2645.svg)
+![Hacktoberfest](https://hacktoberfest.digitalocean.com/_nuxt/img/logo-hacktoberfest-full.f42e3b1.svg)
 
 There are plenty of modules to create, or update all detailed in the [issues page](https://github.com/banjtheman/fancylit/issues). Complete 4 PRs during October to win a free t-shirt.
 
