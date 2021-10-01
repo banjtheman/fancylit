@@ -3,3 +3,4 @@ yellowbrick
 altair
 pandas
 plotly
+wordcloud

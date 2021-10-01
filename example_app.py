@@ -22,6 +22,7 @@ def stats_examples(df: pd.DataFrame) -> None:
     with st.echo():
         fancylit.stats.df_describe(df)
         fancylit.stats.show_metrics(df)
+        fancylit.stats.gen_wordcloud(df)
 
 
 def modeling_viz_examples(df: pd.DataFrame) -> None:
