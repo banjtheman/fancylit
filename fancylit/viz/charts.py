@@ -2,6 +2,7 @@ import pandas as pd
 import altair as alt
 import plotly.express as px
 import streamlit as st
+import seaborn as sns
 
 
 def bar_chart(
@@ -81,19 +82,19 @@ def scatter_plot(df: pd.DataFrame) -> None:
 
     return None
   
-  
 def chart_3d(df: pd.DataFrame):
     """
     Receives a dataframe and renders a 3D scatter plot
-    
+
     Args:
         df(pd.DataFrame)
     Returns:
         N/A
     """
-    
+
     if len(df.columns) < 3:
-        st.warning("You need to provide a Dataframe with, at least, three columns.")
+        st.warning(
+            "You need to provide a Dataframe with, at least, three columns.")
     else:
         x_col = st.selectbox("Select x axis for 3D chart", df.columns, 0)
         y_col = st.selectbox("Select y axis for 3D chart", df.columns, 1)
@@ -103,4 +104,39 @@ def chart_3d(df: pd.DataFrame):
             hue = st.selectbox("Select the column of the grouping variable", df.columns, 0)
         fig = px.scatter_3d(df, x=x_col, y=y_col, z=z_col, color=hue)
         st.plotly_chart(fig, use_container_width=True)
-        
+
+
+def pair_plot(df: pd.DataFrame) -> None:
+    """
+    Purpose:
+        Renders pair plot
+    Args:
+        df - Pandas dataframe
+    Returns:
+        N/A
+    """
+    if len(df.columns) < 2:
+        st.warning(
+            "You need to provide a Dataframe with, at least, two columns.")
+    else:
+        x_vars = st.multiselect(
+            "Select x axis for pair plot",  df.columns
+        )
+        y_vars = st.multiselect(
+            "Select y axis for pair plot",  df.columns
+        )
+        # List of all non-numeric fields of given dataframe
+        non_num_cols = list(df.select_dtypes(include=object).columns)
+        hue = None
+        # Ask for hue only if atleast 1 non-numeric column is present
+        if non_num_cols and st.checkbox("Do you want use different colors for groups?", key="pair_plot"):
+            hue = st.selectbox(
+                "Select the column of the grouping variable", non_num_cols
+            )
+        # Wait until user select atleast 1 column for both x and y axes
+        try:
+            fig = sns.pairplot(df, x_vars=x_vars, y_vars=y_vars, hue=hue)
+            st.pyplot(fig)
+        except ValueError:
+            pass
+

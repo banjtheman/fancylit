@@ -4,3 +4,4 @@ altair
 pandas
 plotly
 wordcloud
+seaborn
