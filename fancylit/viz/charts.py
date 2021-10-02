@@ -59,8 +59,7 @@ def chart_3d(df: pd.DataFrame):
         z_col = st.selectbox("Select z axis for 3D chart", df.columns, 2)
         hue = None
         if st.checkbox("Do you want use different colors for groups?"):
-            hue = st.selectbox(
-                "Select the column of the grouping variable", df.columns, 0)
+            hue = st.selectbox("Select the column of the grouping variable", df.columns, 0)
         fig = px.scatter_3d(df, x=x_col, y=y_col, z=z_col, color=hue)
         st.plotly_chart(fig, use_container_width=True)
 
@@ -68,7 +67,7 @@ def chart_3d(df: pd.DataFrame):
 def pair_plot(df: pd.DataFrame) -> None:
     """
     Purpose:
-        Renders bar chart
+        Renders pair plot
     Args:
         df - Pandas dataframe
     Returns:
