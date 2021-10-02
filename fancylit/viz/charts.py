@@ -38,6 +38,50 @@ def bar_chart(
 
     st.altair_chart(chart, use_container_width=True)
 
+    
+def scatter_plot(df: pd.DataFrame) -> None:
+    """
+    Purpose:
+        Renders scatter plot
+    Args:
+        df - Pandas dataframe
+    Returns:
+        N/A
+    """
+    if isinstance(df, pd.DataFrame):
+        # Column identification
+        numeric_data_types = ['number', 'bool', 'float', 'int']
+        categorical_data_types = ['object', 'category']
+        numeric_cols = df.select_dtypes(include=numeric_data_types).columns
+        categorical_cols = df.select_dtypes(
+            include=categorical_data_types).columns
+
+        # Column selection
+        x_col_selection = st.selectbox(
+            "Select X axis for scatter plot", numeric_cols)
+        y_col_selection = st.selectbox(
+            "Select Y axis for scatter plot", numeric_cols)
+        z_col_selection = st.selectbox(
+            "Select Category for scatter plot", categorical_cols)
+
+        # Scatter Plot rendering
+        chart = (
+            alt
+            .Chart(df)
+            .mark_circle(size=60)
+            .encode(
+                x=x_col_selection,
+                y=y_col_selection,
+                color=z_col_selection,
+                tooltip=list(df.columns),
+            )
+            .interactive()
+        )
+        st.altair_chart(chart, use_container_width=True)
+
+    return None
+  
+  
 def chart_3d(df: pd.DataFrame):
     """
     Receives a dataframe and renders a 3D scatter plot
@@ -59,3 +103,4 @@ def chart_3d(df: pd.DataFrame):
             hue = st.selectbox("Select the column of the grouping variable", df.columns, 0)
         fig = px.scatter_3d(df, x=x_col, y=y_col, z=z_col, color=hue)
         st.plotly_chart(fig, use_container_width=True)
+        

@@ -60,6 +60,11 @@ def viz_examples(df: pd.DataFrame) -> None:
     with st.echo():
         fancylit.viz.charts.chart_3d(df)
 
+    # Start Scatter Plot example
+    st.write("Scatter Plot Example")
+    with st.echo():
+        fancylit.viz.charts.scatter_plot(df)  
+
 
 def sidebar() -> None:
     """
