@@ -1,1 +1,1 @@
-from .charts import bar_chart
+from .charts import bar_chart, scatter_plot
