@@ -1,5 +1,6 @@
 import pandas as pd
 import altair as alt
+import plotly.express as px
 import streamlit as st
 
 
@@ -37,7 +38,7 @@ def bar_chart(
 
     st.altair_chart(chart, use_container_width=True)
 
-
+    
 def scatter_plot(df: pd.DataFrame) -> None:
     """
     Purpose:
@@ -79,3 +80,27 @@ def scatter_plot(df: pd.DataFrame) -> None:
         st.altair_chart(chart, use_container_width=True)
 
     return None
+  
+  
+def chart_3d(df: pd.DataFrame):
+    """
+    Receives a dataframe and renders a 3D scatter plot
+    
+    Args:
+        df(pd.DataFrame)
+    Returns:
+        N/A
+    """
+    
+    if len(df.columns) < 3:
+        st.warning("You need to provide a Dataframe with, at least, three columns.")
+    else:
+        x_col = st.selectbox("Select x axis for 3D chart", df.columns, 0)
+        y_col = st.selectbox("Select y axis for 3D chart", df.columns, 1)
+        z_col = st.selectbox("Select z axis for 3D chart", df.columns, 2)
+        hue = None
+        if st.checkbox("Do you want use different colors for groups?"):
+            hue = st.selectbox("Select the column of the grouping variable", df.columns, 0)
+        fig = px.scatter_3d(df, x=x_col, y=y_col, z=z_col, color=hue)
+        st.plotly_chart(fig, use_container_width=True)
+        
