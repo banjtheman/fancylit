@@ -55,10 +55,15 @@ def viz_examples(df: pd.DataFrame) -> None:
     st.write("Bar Chart Example")
     with st.echo():
         fancylit.viz.charts.bar_chart(df)
-    
+
     st.write("3D Chart Example")
     with st.echo():
         fancylit.viz.charts.chart_3d(df)
+
+    # Start pair plot example
+    st.write("Pair Plot Example")
+    with st.echo():
+        fancylit.viz.charts.pair_plot(df)
 
 
 def sidebar() -> None:
