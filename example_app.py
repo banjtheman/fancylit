@@ -39,6 +39,10 @@ def modeling_viz_examples(df: pd.DataFrame) -> None:
     st.write("Classification Report Example")
     with st.echo():
         fancylit.yellowbrick_funcs.show_classification_report(df)
+    
+    st.write("Feature Correlation")
+    with st.echo():
+        fancylit.yellowbrick_funcs.feature_correlation(df) 
 
 
 def viz_examples(df: pd.DataFrame) -> None:

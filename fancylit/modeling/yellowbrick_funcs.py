@@ -5,8 +5,9 @@ import streamlit as st
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from yellowbrick.classifier import classification_report
+from yellowbrick.target import FeatureCorrelation
 from typing import Any, List, Tuple
-
+import plotly.express as px
 
 def data_prep(df: pd.DataFrame) -> Tuple[List, List, List, List]:
     """
@@ -111,3 +112,42 @@ def show_classification_report(
 
         # TODO download model, Download report
         # TODO live predictions
+
+def feature_correlation(df: pd.DataFrame) -> None:
+    """
+    Purpose:
+        Renders a feature correlation graph
+    Args:
+        df - Pandas dataframe
+    Returns:
+        N/A
+    """
+    target_string = st.selectbox("Select Target Column", df.columns,
+                                 key="selectbox-feature-correlation")
+    residual_cols = [col for col in df.columns if col != target_string and df[col].dtype != "object"]
+    feature_cols = st.multiselect("Select Modeling Features", residual_cols,
+                                  key="multiselect-feature-correlation",
+                                  default=residual_cols[:5])
+    
+    if str(df[target_string].dtype) == "object":
+        method = 'mutual_info-classification'
+    else:
+        type_problem = st.selectbox("Select the type of problem",
+                                     ['classification', 'regression'])
+        
+        if type_problem == 'classification':
+            method = st.selectbox("Select the correlation method",
+                              ['mutual_info-classification', 'pearson'])
+        else:
+            method = st.selectbox("Select the correlation method",
+                                ['mutual_info-regression', 'pearson'])
+    try:
+        viz = FeatureCorrelation(method=method,
+                                feature_names=feature_cols,
+                                sort=True)
+        viz.fit(df[feature_cols], df[target_string])
+        fig = px.bar(x=viz.scores_, y=viz.features_, title="Feature Correlation")
+        st.plotly_chart(fig)
+        
+    except :
+        st.warning("Verify the type of problem that you select")
