@@ -74,7 +74,11 @@ def viz_examples(df: pd.DataFrame) -> None:
     st.write("Line Chart Example")
     with st.echo():
         fancylit.viz.charts.line_chart(df)
-
+    
+    # Start heatmap example
+    st.write("Heatmap Example")
+    with st.echo():
+        fancylit.viz.charts.heatmap(df) 
 
 def sidebar() -> None:
     """

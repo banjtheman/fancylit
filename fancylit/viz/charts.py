@@ -4,7 +4,6 @@ import plotly.express as px
 import streamlit as st
 import seaborn as sns
 
-
 def bar_chart(
     df: pd.DataFrame,
 ):
@@ -183,3 +182,41 @@ def line_chart(df: pd.DataFrame) -> None:
         st.altair_chart(chart, use_container_width=True)
 
     return None
+
+def heatmap(
+    df: pd.DataFrame,
+):
+    """
+    Purpose:
+        Renders bar chart
+    Args:
+        df - Pandas dataframe
+    Returns:
+        N/A
+    """
+
+    x_col = st.selectbox("Select x axis for the heat map", df.columns)
+    xcol_string = x_col + ":O"
+    if st.checkbox("Show as continuous?", key="heatmap_x_is_cont"):
+        xcol_string = x_col + ":Q"
+    y_col = st.selectbox("Select y axis for the heat map", df.columns)
+    z_col = st.selectbox("Select z axis for the heat map", df.columns)
+
+    source = pd.DataFrame({'x': df[x_col].ravel(),
+                     'y': df[y_col].ravel(),
+                     'z': df[z_col].ravel()})
+
+    chart = (
+        alt.Chart(source)
+        .mark_rect()
+        .encode(x='x:O', y='y:O', color='z:Q', tooltip=list(source.columns))
+        .interactive()
+        .properties(title="Heatmap for " + x_col + ", " + y_col)
+        .configure_title(
+            fontSize=20,
+        )
+        .configure_axis(labelFontSize=20, titleFontSize=20)
+        .configure_legend(labelFontSize=20, titleFontSize=20)
+    )
+
+    st.altair_chart(chart, use_container_width=True)
