@@ -39,7 +39,7 @@ def bar_chart(
 
     st.altair_chart(chart, use_container_width=True)
 
-    
+
 def scatter_plot(df: pd.DataFrame) -> None:
     """
     Purpose:
@@ -81,7 +81,8 @@ def scatter_plot(df: pd.DataFrame) -> None:
         st.altair_chart(chart, use_container_width=True)
 
     return None
-  
+
+
 def chart_3d(df: pd.DataFrame):
     """
     Receives a dataframe and renders a 3D scatter plot
@@ -101,7 +102,8 @@ def chart_3d(df: pd.DataFrame):
         z_col = st.selectbox("Select z axis for 3D chart", df.columns, 2)
         hue = None
         if st.checkbox("Do you want use different colors for groups?"):
-            hue = st.selectbox("Select the column of the grouping variable", df.columns, 0)
+            hue = st.selectbox(
+                "Select the column of the grouping variable", df.columns, 0)
         fig = px.scatter_3d(df, x=x_col, y=y_col, z=z_col, color=hue)
         st.plotly_chart(fig, use_container_width=True)
 
@@ -140,3 +142,44 @@ def pair_plot(df: pd.DataFrame) -> None:
         except ValueError:
             pass
 
+
+def line_chart(df: pd.DataFrame) -> None:
+    """
+    Purpose:
+        Renders line chart
+    Args:
+        df - Pandas dataframe
+    Returns:
+        N/A
+    """
+    if (isinstance(df, pd.DataFrame)):
+        # Column identification
+        numeric_data_types = ['number', 'bool', 'float', 'int']
+        numeric_cols = list(df.select_dtypes(
+            include=numeric_data_types).columns)
+
+        if len(numeric_cols) < 2:
+            st.warning(
+                'You need to provide a Dataframe with, at least, two columns.')
+            return None
+
+        # Column selection
+        x_col_selection = st.selectbox(
+            'Select X axis for line chart', numeric_cols)
+        y_col_selection = st.selectbox(
+            'Select Y axis for line chart', numeric_cols)
+
+        # Line Chart rendering
+        chart = (
+            alt
+            .Chart(df)
+            .mark_line()
+            .encode(
+                x=x_col_selection,
+                y=y_col_selection,
+            )
+            .interactive()
+        )
+        st.altair_chart(chart, use_container_width=True)
+
+    return None
