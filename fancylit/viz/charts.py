@@ -3,7 +3,6 @@ import altair as alt
 import plotly.express as px
 import streamlit as st
 import seaborn as sns
-import numpy as np
 
 def bar_chart(
     df: pd.DataFrame,
