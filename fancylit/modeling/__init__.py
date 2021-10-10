@@ -1,1 +1,1 @@
-from .yellowbrick_funcs import show_classification_report, feature_correlation
+from .yellowbrick_funcs import show_classification_report, feature_correlation, class_balance

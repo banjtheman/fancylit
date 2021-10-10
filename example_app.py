@@ -44,6 +44,10 @@ def modeling_viz_examples(df: pd.DataFrame) -> None:
     with st.echo():
         fancylit.yellowbrick_funcs.feature_correlation(df) 
 
+    st.write("Class balance")
+    with st.echo():
+        fancylit.yellowbrick_funcs.class_balance(df)
+
 
 def viz_examples(df: pd.DataFrame) -> None:
     """

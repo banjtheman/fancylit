@@ -6,6 +6,8 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from yellowbrick.classifier import classification_report
 from yellowbrick.target import FeatureCorrelation
+from yellowbrick.target import ClassBalance
+from streamlit_yellowbrick import st_yellowbrick
 from typing import Any, List, Tuple
 import plotly.express as px
 
@@ -151,3 +153,18 @@ def feature_correlation(df: pd.DataFrame) -> None:
         
     except :
         st.warning("Verify the type of problem that you select")
+
+def class_balance(df: pd.DataFrame) -> None:
+    """
+    Purpose:
+        Renders a class balance graph
+    Args:
+        df - Pandas dataframe
+    Returns:
+        N/A
+    """
+    
+    classes = st.selectbox("Select Class Column", df.columns, index = len(df.columns) - 1)
+    visualizer = ClassBalance(labels = df[classes].unique())
+    visualizer.fit(df[classes])
+    st_yellowbrick(visualizer) 
