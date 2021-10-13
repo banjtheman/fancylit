@@ -6,3 +6,4 @@ plotly
 wordcloud
 seaborn
 streamlit-yellowbrick
+umap-learn

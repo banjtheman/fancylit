@@ -1,15 +1,23 @@
 import random
+from typing import Any, List, Tuple
+
 import numpy as np
 import pandas as pd
 import streamlit as st
+import plotly.express as px
+from sklearn.cluster import KMeans
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
 from yellowbrick.classifier import classification_report
 from yellowbrick.target import FeatureCorrelation
 from yellowbrick.target import ClassBalance
+from yellowbrick.text import UMAPVisualizer, umap
 from streamlit_yellowbrick import st_yellowbrick
-from typing import Any, List, Tuple
-import plotly.express as px
+
+from matplotlib.axes._axes import _log as matplotlib_axes_logger
+matplotlib_axes_logger.setLevel('ERROR')
+
 
 def data_prep(df: pd.DataFrame) -> Tuple[List, List, List, List]:
     """
@@ -168,3 +176,48 @@ def class_balance(df: pd.DataFrame) -> None:
     visualizer = ClassBalance(labels = df[classes].unique())
     visualizer.fit(df[classes])
     st_yellowbrick(visualizer) 
+
+
+def umap_viz(df: pd.DataFrame) -> None:
+    """
+    Purpose:
+        Renders a umap graph
+    Args:
+        df - Pandas dataframe
+    Returns:
+        N/A
+    """
+    # Check dataFrame
+    if not isinstance(df, pd.DataFrame):
+        st.error('Please check your dataframe')
+        return
+
+    # Column identification
+    categorical_data_types = ['object', 'category']
+    categorical_cols = list(df.select_dtypes(include=categorical_data_types).columns)
+    if len(categorical_cols) < 1:
+        st.warning('No categorical columns found')
+        return
+
+    residual_data_types = ['number', 'bool', 'float', 'int']
+    residual_cols = list(df.select_dtypes(include=residual_data_types).columns)
+    if len(residual_cols) < 1:
+        st.warning('No residual columns found')
+        return
+
+    # Select target and features
+    target_string = st.selectbox('Select Target Column', categorical_cols,
+                                 key='target-selectbox-umap')
+    feature_cols = st.selectbox('Select Modeling Features', residual_cols,
+                                  key='feaure-selectbox-umap')
+    
+    # UMAP visualization
+    features = df[feature_cols].values.astype(float).reshape(-1, 1)
+    n_clusters = len(df[target_string].unique())
+    clusters = KMeans(n_clusters=n_clusters)
+    clusters.fit(features)
+    labels = df[target_string].values.astype(str)
+
+    umap = UMAPVisualizer(metric='cosine')
+    umap.fit(features, labels)
+    st_yellowbrick(umap)
