@@ -47,6 +47,10 @@ def modeling_viz_examples(df: pd.DataFrame) -> None:
     st.write("Class balance")
     with st.echo():
         fancylit.yellowbrick_funcs.class_balance(df)
+    
+    st.write("UMAP Corpus Visualization Example")
+    with st.echo():
+        fancylit.yellowbrick_funcs.umap_viz(df)
 
 
 def viz_examples(df: pd.DataFrame) -> None:
