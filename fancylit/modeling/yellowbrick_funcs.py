@@ -13,6 +13,7 @@ from yellowbrick.classifier import classification_report
 from yellowbrick.target import FeatureCorrelation
 from yellowbrick.target import ClassBalance
 from yellowbrick.text import UMAPVisualizer, umap
+from yellowbrick.regressor import PredictionError
 from streamlit_yellowbrick import st_yellowbrick
 
 from matplotlib.axes._axes import _log as matplotlib_axes_logger
@@ -30,8 +31,7 @@ def data_prep(df: pd.DataFrame) -> Tuple[List, List, List, List]:
         train_features - train set feautres
         test_target -  test set target
         train_target - train set target
-    """
-
+    """    
     # Specify the target classes
     target_string = st.selectbox("Select Target Column", df.columns)
     target = np.array(df[target_string])
@@ -221,3 +221,33 @@ def umap_viz(df: pd.DataFrame) -> None:
     umap = UMAPVisualizer(metric='cosine')
     umap.fit(features, labels)
     st_yellowbrick(umap)
+
+def prediction_error(df, regression_model):
+    """
+    Purpose:
+        Renders a prediction error plot for regression models
+    Args:
+        df - Pandas dataframe
+        model - A model following the sklearn pattern (fit and transform methods)
+    Returns:
+        N/A
+    """
+    numerical_data_types = ['number', 'float', 'int']
+    numerical_cols = list(df.select_dtypes(include=numerical_data_types).columns)
+    target = st.selectbox("Select Target Column", numerical_cols,
+                                 key="selectbox-prediction-plot")
+    residual_cols = [col for col in numerical_cols if col != target]
+    feature_cols = st.multiselect("Select Modeling Features", residual_cols,
+                                  key="multiselect-prediction-plot",
+                                  default=residual_cols[:5])
+    X = df[feature_cols].values
+    y = df[target]
+    
+    randInt = random.randint(1, 200)
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.75, random_state=randInt)
+    
+    visualizer = PredictionError(regression_model)
+    visualizer.fit(X_train, y_train)
+    visualizer.score(X_test, y_test)
+    st_yellowbrick(visualizer)

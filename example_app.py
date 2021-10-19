@@ -1,6 +1,7 @@
 import streamlit as st
 import fancylit
 import pandas as pd
+from sklearn.linear_model import Lasso
 
 ###
 # Streamlit Main Functionality
@@ -48,9 +49,13 @@ def modeling_viz_examples(df: pd.DataFrame) -> None:
     with st.echo():
         fancylit.yellowbrick_funcs.class_balance(df)
     
-    st.write("UMAP Corpus Visualization Example")
+    # st.write("UMAP Corpus Visualization Example")
+    # with st.echo():
+    #     fancylit.yellowbrick_funcs.umap_viz(df)
+    
+    st.write("Prediction Error Plot")
     with st.echo():
-        fancylit.yellowbrick_funcs.umap_viz(df)
+        fancylit.yellowbrick_funcs.prediction_error(df, Lasso()) 
 
 
 def viz_examples(df: pd.DataFrame) -> None:
